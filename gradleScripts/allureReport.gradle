@@ -1,0 +1,27 @@
+def reportsDirectory = "$buildDir/"
+
+/**
+ * Copy allure-results folder from the emulator SD card
+ */
+def getAllureResultsTask = task('getAllureResults', type: Exec) {
+    def rootDir = project.rootDir
+    def localProperties = new File(rootDir, "local.properties")
+    Properties properties = new Properties()
+    localProperties.withInputStream {
+        instr -> properties.load(instr)
+    }
+    def sdkDir = properties.getProperty('sdk.dir')
+    def adb = "$sdkDir/platform-tools/adb"
+
+    commandLine "$adb", "pull", "/sdcard/googletest/test_outputfiles/build/.", reportsDirectory
+
+    mustRunAfter "app:connectedDebugAndroidTest"
+}
+
+tasks.whenTaskAdded { task ->
+    if (task.name != 'clean') {
+        task.finalizedBy {
+            getAllureResultsTask
+        }
+    }
+}

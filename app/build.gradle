@@ -1,0 +1,69 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    // id 'io.qameta.allure'
+}
+
+android {
+    compileSdk 32
+
+    defaultConfig {
+        applicationId "com.qa.android.allure_android"
+        minSdk config.minSdk
+        targetSdk config.targetSdk
+        versionCode 1
+        versionName "1.0-RC01"
+
+        testInstrumentationRunner "io.qameta.allure.android.runners.AllureAndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            // remove unused resources in addition to unused code
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+    namespace 'com.qa.android.allure_android'
+}
+
+
+dependencies {
+    implementation deps.appCompat
+    implementation deps.coreKtx
+    implementation deps.materialComponents
+    implementation deps.constraintLayout
+    implementation deps.jetpackNavigation
+    implementation deps.jetpackNavigationUi
+    testImplementation deps.junit
+    androidTestImplementation deps.junitAndroidX
+
+    implementation deps.androidTestRunner
+    implementation deps.androidTestRules
+    androidTestImplementation deps.espressoCore
+    androidTestImplementation deps.espressoIntents
+    implementation deps.kotlinStdLib
+    implementation deps.kotlinReflect
+    testImplementation deps.robolectric
+
+    implementation deps.allureModel
+    implementation deps.allureCommon
+    implementation deps.allureJUnit
+    implementation deps.allureAndroid
+    androidTestUtil deps.orchestrator
+
+    //implementation("com.github.automatedowl:allure-environment-writer:1.0.0")
+}
