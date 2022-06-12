@@ -9,6 +9,7 @@
 # Why Allure-Kotlin
 `allurе-android` isn't supported anymore. Because of this reason we need to moved to `allure-kotlin`
 
+Check out the [Allure Android][allure-android].
 
 # Allure Kotlin Integrations
 Another reason for the creation of `allure-kotlin` was Android support for unit tests, Robolectric tests, and on-device instrumentation tests.
@@ -118,9 +119,12 @@ Enabling test storage for automation tests:
 After that allure will use TestStorage to save test results. Test results will be saved by default into `/sdcard/googletest/test_outputfiles/allure-results`
 To get those files from device you can use e.g `adb exec-out sh -c 'cd  /sdcard/googletest/test_outputfiles && tar cf - allure-results' | tar xvf - -C /output/dir`
 
-*NOTE: allure-results folder name can be changed using `allure.results.directory` property.*
+NOTES:
+ - allure-results folder name can be changed using `allure.results.directory` property.
+ - To get the allure-results from the emulator `./gradlew getAllureResults`. This will copy test results to the `build` directory.
 
 [allure-gradle-plugin]: https://github.com/allure-framework/allure-gradle
 [allure-cli]: https://docs.qameta.io/allure/#_reporting
 [gradle-test-listener]: https://discuss.gradle.org/t/how-to-attach-a-runlistener-to-your-junit-4-tests-in-gradle/30788
 [allure-docs]: https://docs.qameta.io/allure/
+[allure-android]: https://github.com/allure-framework/allure-android

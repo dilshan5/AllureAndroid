@@ -64,6 +64,6 @@ dependencies {
     implementation deps.allureJUnit
     implementation deps.allureAndroid
     androidTestUtil deps.orchestrator
+    implementation("org.redundent:kotlin-xml-builder:1.7.4")
 
-    //implementation("com.github.automatedowl:allure-environment-writer:1.0.0")
 }

@@ -9,8 +9,10 @@ import androidx.test.ext.junit.rules.activityScenarioRule
 import androidx.test.filters.LargeTest
 import com.qa.android.allure_android.MainActivity
 import com.qa.android.allure_android.R
+import com.qa.android.allure_android.util.BaseScreen
 import io.qameta.allure.android.rules.LogcatRule
 import io.qameta.allure.android.rules.ScreenshotRule
+import io.qameta.allure.android.rules.WindowHierarchyRule
 import io.qameta.allure.android.runners.AllureAndroidJUnit4
 import io.qameta.allure.kotlin.Epic
 import io.qameta.allure.kotlin.Feature
@@ -30,7 +32,7 @@ import org.junit.runner.RunWith
 @Feature("Allure Feature")
 @Story("Allure Second Activity Story")
 @LargeTest
-class SecondFragmentScreen {
+class SecondFragmentScreen : BaseScreen() {
 
     /**
      * Use [ActivityScenarioRule] to create and launch the activity under test before each test,

@@ -18,10 +18,43 @@ def getAllureResultsTask = task('getAllureResults', type: Exec) {
     mustRunAfter "app:connectedDebugAndroidTest"
 }
 
+/**
+ * Copy allure-results folder from the emulator SD card
+ */
+def getAndroidEnvironmentVariableTask = task('getAndroidEnvironmentVariabl', type: Exec) {
+    def rootDir = project.rootDir
+    def localProperties = new File(rootDir, "local.properties")
+    Properties properties = new Properties()
+    localProperties.withInputStream {
+        instr -> properties.load(instr)
+    }
+    def sdkDir = properties.getProperty('sdk.dir')
+    def adb = "$sdkDir/platform-tools/adb"
+
+    commandLine "$adb", "pull", "/data/user/0/com.qa.android.allure_android/files/build/.", reportsDirectory
+
+    // mustRunAfter "app:connectedDebugAndroidTest"
+}
+
+def setRootPermissionTask = task('setRootPermission', type: Exec) {
+    def rootDir = project.rootDir
+    def localProperties = new File(rootDir, "local.properties")
+    Properties properties = new Properties()
+    localProperties.withInputStream {
+        instr -> properties.load(instr)
+    }
+    def sdkDir = properties.getProperty('sdk.dir')
+    def adb = "$sdkDir/platform-tools/adb"
+
+    commandLine "$adb", "root"
+
+    // mustRunAfter "app:connectedDebugAndroidTest"
+}
+/*
 tasks.whenTaskAdded { task ->
     if (task.name != 'clean') {
         task.finalizedBy {
             getAllureResultsTask
         }
     }
-}
+}*/

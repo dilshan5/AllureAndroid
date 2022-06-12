@@ -10,6 +10,7 @@ import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
 import com.qa.android.allure_android.MainActivity
 import com.qa.android.allure_android.R
+import com.qa.android.allure_android.util.BaseScreen
 import io.qameta.allure.android.rules.LogcatRule
 import io.qameta.allure.android.rules.ScreenshotRule
 import io.qameta.allure.android.runners.AllureAndroidJUnit4
@@ -33,7 +34,7 @@ import org.junit.runner.RunWith
 @Feature("Allure Feature")
 @Story("Allure Main Activity Story")
 @LargeTest
-class FirstFragmentScreen {
+class FirstFragmentScreen : BaseScreen(){
 
     /**
      * Use [ActivityScenarioRule] to create and launch the activity under test before each test,
@@ -52,6 +53,7 @@ class FirstFragmentScreen {
     fun setUp() {
         // Initializes Intents
         Intents.init()
+        GenerateEnvironmentXml()
     }
 
     @After
