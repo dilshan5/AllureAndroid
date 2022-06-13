@@ -1,6 +1,7 @@
 package com.qa.android.allure_android.util
 
 import android.content.Context
+import android.os.Build
 import android.os.Environment
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import org.redundent.kotlin.xml.xml
@@ -9,24 +10,34 @@ import java.io.FileWriter
 
 open class BaseScreen {
 
+    /**
+     * For BUILD information : https://developer.android.com/reference/android/os/Build.html
+     */
     fun GenerateEnvironmentXml() {
-        var text = "test"
 
-        val people = xml("environment") {
+        val environmentDetails = xml("environment") {
             "parameter" {
                 "key" {
-                    -"Browser"
+                    -"Device Name"
                 }
                 "value" {
-                    -"Chrome"
+                    -Build.DEVICE.toString()
                 }
             }
             "parameter" {
                 "key" {
-                    -"OS"
+                    -"API Level"
                 }
                 "value" {
-                    -text
+                    -Build.VERSION.SDK_INT.toString()
+                }
+            }
+            "parameter" {
+                "key" {
+                    -"Device Manufacture"
+                }
+                "value" {
+                    -Build.MANUFACTURER.toString()
                 }
             }
         }
@@ -43,7 +54,7 @@ open class BaseScreen {
         val gpxfile = File(root, "environment.xml")
         gpxfile.createNewFile()
         val writer = FileWriter(gpxfile)
-        writer.append(people.toString())
+        writer.append(environmentDetails.toString())
         writer.flush()
         writer.close()
 
