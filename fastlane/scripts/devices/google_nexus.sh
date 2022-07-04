@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-export PACKAGE="system-images;android-${API};google_apis;arm64-v8a"
+export PACKAGE="system-images;android-23;google_apis;arm64-v8a"
 export ABI="arm64-v8a"
-export EMULATOR_NAME="${EMULATOR}_API${API}"
+
 
 # Install AVD files
 #echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install $PACKAGE // if JDK is 1.8
@@ -10,24 +10,16 @@ export EMULATOR_NAME="${EMULATOR}_API${API}"
 echo "y" |$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install $PACKAGE
 
 # Create emulator
-#echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd -n $EMULATOR_NAME --device $EMULATOR --abi $ABI --package $PACKAGE --force
-#echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd -n $EMULATOR_NAME -d $EMULATOR --abi $ABI --package $PACKAGE --force
-
 # if JDK is 1.8
 # echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd -n $EMULATOR_NAME -d $EMULATOR --abi $ABI --package $PACKAGE --force
-echo "no" | $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd -n $EMULATOR_NAME -d $EMULATOR --abi $ABI --package $PACKAGE --force
-
-#list available emulators
-#echo | $ANDROID_HOME/tools/bin/avdmanager list
+echo "no" | $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd -n google_nexus_4 -d 'Nexus 4' --abi $ABI --package $PACKAGE --force
 
 $ANDROID_HOME/emulator/emulator -list-avds
 
-echo "Starting emulator ${EMULATOR_NAME}"
+echo "Starting emulator google_nexus_4_API_23"
 
 # Start emulator in background
-nohup $ANDROID_HOME/emulator/emulator -avd $EMULATOR_NAME -no-snapshot -no-window -no-audio -no-boot-anim -accel on -wipe-data > /dev/null 2>&1 & sleep 5s
-
-#workaround for runner performance issues - https://github.com/actions/virtual-environments/issues/3719
+nohup $ANDROID_HOME/emulator/emulator -avd google_nexus_4 -no-snapshot -no-window -no-audio -no-boot-anim -accel on -wipe-data > /dev/null 2>&1 & sleep 5s
 
 echo y | find ~/.android
 

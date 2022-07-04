@@ -1,9 +1,5 @@
 # Calls scripts to download, install, and run emulator
 
-def create_and_run_emulator
-    sh("sh create_and_run_emulator.sh")
-end
-
 #starts emulators from device list
 def start_emulators(device_list)
      emulators = device_list.split(";")

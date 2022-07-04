@@ -15,7 +15,25 @@
 
 default_platform(:android)
 
+import("UITest")
+import("Android")
+
 platform :android do
+
+lane :pr_on_develop do
+    unit_test
+end
+
+lane :ui_tests do |options|
+    matrix_api = options[:matrix_api]
+    matrix_emulator = options[:matrix_emulator]
+    matrix_test_suite = options[:matrix_test_suite]
+    matrix_env = options[:conf]
+    begin
+        ui_test(matrix_env: matrix_env, matrix_api: matrix_api, matrix_emulator: matrix_emulator, matrix_test_suite: matrix_test_suite)
+    end
+end
+
   desc "Runs all the tests"
   lane :test do
     gradle(task: "test")
