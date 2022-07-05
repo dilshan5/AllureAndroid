@@ -19,7 +19,7 @@ $ANDROID_HOME/emulator/emulator -list-avds
 echo "Starting emulator google_pixel_xl_API_32"
 
 # Start emulator in background
-nohup $ANDROID_HOME/emulator/emulator -avd google_pixel_xl -no-snapshot -no-window -no-audio -no-boot-anim -accel on -wipe-data > /dev/null 2>&1 & sleep 5s
+nohup $ANDROID_HOME/emulator/emulator -avd google_pixel_xl -no-snapshot -no-audio -no-boot-anim -accel on -wipe-data > /dev/null 2>&1 & sleep 5s
 
 echo y | find ~/.android
 

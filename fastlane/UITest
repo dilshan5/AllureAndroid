@@ -8,14 +8,20 @@ private_lane :ui_test do |options|
     ENV["API"] = options[:matrix_api] ? options[:matrix_api] : '32'
     ENV["EMULATOR"] = options[:matrix_emulator] ? options[:matrix_emulator] : 'pixel_3a'
 
-     begin
-        start_emulators("google_pixel_xl;google_nexus")
-        wait_for_emulators_to_boot
-        task = "app:connectedDebugAndroidTest"
-        executeGradle(task)
-     rescue
-        close_emulators
-        #executeGradle('cleanOutput')
-     end
+    start_emulator
+    #wait_for_emulators_to_boot
+    task = 'app:connectedDebugAndroidTest' + ' -PtestSuite=' + matrix_test_suite + ' -Pmatrix_env=' + matrix_env
+    executeGradle(task)
+    close_emulators
+
+#============== For Parallel Device execution =============================================
+#    begin
+#        start_emulators("google_pixel_xl;google_nexus")
+#        wait_for_emulators_to_boot
+#        task = "app:connectedDebugAndroidTest"
+#        executeGradle(task)
+#     rescue
+#        close_emulators
+#     end
 
 end

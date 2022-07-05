@@ -19,6 +19,7 @@ import io.qameta.allure.kotlin.Feature
 import io.qameta.allure.kotlin.Story
 import io.qameta.allure.kotlin.TmsLink
 import io.qameta.allure.kotlin.junit4.DisplayName
+import io.qameta.allure.kotlin.junit4.Tag
 import org.junit.*
 import org.junit.runner.RunWith
 
@@ -61,6 +62,7 @@ class SecondFragmentScreen : BaseScreen() {
 
     @Test
     @TmsLink("test-1")
+    @Tag("Regression")
     @DisplayName("As a User, I should see the Second Screen")
     fun verifySecondScreen() {
         onView(withId(R.id.button_first))

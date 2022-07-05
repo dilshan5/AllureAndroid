@@ -16,6 +16,28 @@ android {
         versionName "1.0-RC01"
 
         testInstrumentationRunner "io.qameta.allure.android.runners.AllureAndroidJUnitRunner"
+        // The following argument makes the Android Test Orchestrator run its
+        // "pm clear" command after each test invocation. This command ensures
+        // that the app's state is completely cleared between tests.
+        testInstrumentationRunnerArguments clearPackageData: 'true'
+
+        // The package name of the test suite
+        testApplicationId "com.qa.android.allure_android.suites"
+
+        // region Convenience to invoke instrumentation tests using an agnostic parameter like -PtestSuite = Smoke
+        def matrixTestSuite = project.findProperty("testSuite")
+        if(matrixTestSuite != null) {
+            matrixTestSuite = matrixTestSuite.toString().toLowerCase()
+        } else {
+            matrixTestSuite = ""
+        }
+
+        switch (matrixTestSuite) {
+            case "smoke":
+            case "regression":
+                testInstrumentationRunnerArguments["class"] = testApplicationId + "." + matrixTestSuite.capitalize()
+                break
+        }
     }
 
     buildTypes {
@@ -38,6 +60,10 @@ android {
         viewBinding true
     }
     namespace 'com.qa.android.allure_android'
+
+    testOptions {
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+    }
 }
 
 
