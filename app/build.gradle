@@ -41,13 +41,32 @@ android {
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix '.debug'
+        }
         release {
-            minifyEnabled false
-            // remove unused resources in addition to unused code
-            shrinkResources false
+            signingConfig signingConfigs.debug
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions "version"
+    productFlavors {
+        iodev {
+            applicationIdSuffix ".iodev"
+            versionNameSuffix "-iodev"
+        }
+        iotest {
+            applicationIdSuffix ".iotest"
+            versionNameSuffix "-iotest"
+        }
+        iostable {
+            applicationIdSuffix ".iostable"
+            versionNameSuffix "-iostable"
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
