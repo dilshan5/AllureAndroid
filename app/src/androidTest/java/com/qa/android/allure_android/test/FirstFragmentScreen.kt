@@ -86,7 +86,7 @@ class FirstFragmentScreen : BaseScreen(){
             .perform(click())
     }
 
-   // @Test
+    @Test
     @DisplayName("As a User, I should be click on the Next button with failure ")
     fun verifyNavigateSecondScreenWithFailure() {
         onView(withId(R.id.button_first))

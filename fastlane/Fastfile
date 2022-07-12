@@ -20,10 +20,12 @@ import("Android")
 
 platform :android do
 
-lane :pr_on_develop do
+desc "Execute unit tests"
+lane :unit_test do
     unit_test
 end
 
+desc "Execute instrumentation test on Emulator"
 lane :ui_tests do |options|
     matrix_api = options[:matrix_api]
     matrix_emulator = options[:matrix_emulator]
@@ -34,9 +36,11 @@ lane :ui_tests do |options|
     end
 end
 
-  desc "Runs all the tests"
-  lane :test do
-    gradle(task: "test")
+desc "Compile debug and test sources"
+lane :compile do
+    gradle(task: "compileDebugSources")
+    gradle(task: "compileDebugUnitTestSources")
+    gradle(task: "compileDebugAndroidTestSources")
   end
 
   desc "Submit a new Beta Build to Crashlytics Beta"
