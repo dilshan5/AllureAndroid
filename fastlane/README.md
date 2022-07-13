@@ -13,15 +13,26 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 # Available Actions
 
-## Android
-
-### android pr_on_develop
+### sonar_report
 
 ```sh
-[bundle exec] fastlane android pr_on_develop
+[bundle exec] fastlane sonar_report
 ```
 
+run a sonar scan
 
+----
+
+
+## Android
+
+### android unit_tests
+
+```sh
+[bundle exec] fastlane android unit_tests
+```
+
+Execute unit tests
 
 ### android ui_tests
 
@@ -29,15 +40,23 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 [bundle exec] fastlane android ui_tests
 ```
 
+Execute instrumentation test on Emulator
 
-
-### android test
+### android pr_to_develop
 
 ```sh
-[bundle exec] fastlane android test
+[bundle exec] fastlane android pr_to_develop
 ```
 
-Runs all the tests
+Submit a PR to develop branch
+
+### android compile
+
+```sh
+[bundle exec] fastlane android compile
+```
+
+Compile debug and test sources
 
 ### android beta
 
