@@ -1,6 +1,7 @@
 <application>
   <component name="FileTypeManager" version="18">
     <extensionMap>
+      <mapping pattern="Sonar" type="AUTO_DETECTED" />
       <mapping pattern="Android" type="AUTO_DETECTED" />
       <mapping pattern="UITest" type="AUTO_DETECTED" />
       <mapping ext="gradle.kts" type="Kotlin" />
