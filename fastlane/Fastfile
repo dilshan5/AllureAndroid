@@ -32,9 +32,8 @@ lane :ui_tests do |options|
     matrix_emulator = options[:matrix_emulator]
     matrix_test_suite = options[:matrix_test_suite]
     matrix_flavor = options[:flavor]
-    begin
-        ui_test(matrix_flavor: matrix_flavor, matrix_api: matrix_api, matrix_emulator: matrix_emulator, matrix_test_suite: matrix_test_suite)
-    end
+
+    ui_test(matrix_flavor: matrix_flavor, matrix_api: matrix_api, matrix_emulator: matrix_emulator, matrix_test_suite: matrix_test_suite)
 end
 
   # Builds the app for flavor given.
@@ -46,18 +45,21 @@ end
   # fastlane build flavor:iotest
   desc "Submit a PR to develop branch"
   lane :pr_to_develop do |options|
-    flavor = options[:flavor] || "iodev"
+    matrix_flavor = options[:flavor] || "iodev"
+    matrix_api = options[:matrix_api]
+    matrix_emulator = options[:matrix_emulator]
+    matrix_test_suite = options[:matrix_test_suite]
 
     gradle(task: "clean")
     #sonar_report
     unit_tests
     gradle(
        task: 'assemble',
-       flavor: flavor,
-       build_type: 'Release',
+       flavor: matrix_flavor,
+       build_type: 'Debug',
        print_command: false
     )
-    ui_tests
+    ui_test(matrix_flavor: matrix_flavor, matrix_api: matrix_api, matrix_emulator: matrix_emulator, matrix_test_suite: matrix_test_suite)
 
   end
 
