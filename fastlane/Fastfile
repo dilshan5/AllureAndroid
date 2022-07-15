@@ -36,13 +36,13 @@ lane :ui_tests do |options|
     ui_test(matrix_flavor: matrix_flavor, matrix_api: matrix_api, matrix_emulator: matrix_emulator, matrix_test_suite: matrix_test_suite)
 end
 
-  # Builds the app for flavor given.
+  # Trigger when a PR create for Develop branch.
   #
   # Options:
   # flavor - environment flavor eg. iodev, iotest or iostable. Defaults to iodev.
-  #
-  # Usage:
-  # fastlane build flavor:iotest
+  # matrix_api - API version. Defaults to 32.
+  # matrix_emulator - Emulator device type (eg: Pixel, Nexus). Defaults to pixel_xl.
+  # matrix_test_suite - Smoke (for CI) and Regression (for CD) Test suites. Defaults to Smoke.
   desc "Submit a PR to develop branch"
   lane :pr_to_develop do |options|
     matrix_flavor = options[:flavor] || "iodev"
