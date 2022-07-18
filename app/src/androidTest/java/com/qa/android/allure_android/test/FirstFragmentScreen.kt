@@ -11,6 +11,8 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.qa.android.allure_android.MainActivity
 import com.qa.android.allure_android.R
 import com.qa.android.allure_android.util.BaseScreen
+import com.qa.android.allure_android.util.ScreenRecordingRuleChain
+import com.qa.android.allure_android.util.ScreenShotRuleChain
 import io.qameta.allure.android.rules.LogcatRule
 import io.qameta.allure.android.rules.ScreenshotRule
 import io.qameta.allure.android.runners.AllureAndroidJUnit4
@@ -22,6 +24,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 
 /**
@@ -46,8 +49,12 @@ class FirstFragmentScreen : BaseScreen(){
 
     @get:Rule
     val logcatRule = ScreenshotRule(mode = ScreenshotRule.Mode.FAILURE)
+
     @get:Rule
-    val logcatRule2 = LogcatRule()
+    val screenRecordingRule: RuleChain = ScreenRecordingRuleChain()
+
+    @get:Rule
+    val screenShotRule: RuleChain = ScreenShotRuleChain()
 
     @Before
     fun setUp() {

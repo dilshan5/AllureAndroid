@@ -1,0 +1,110 @@
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
+// Screen shot and recording variables - needed to record test failures.
+def allureAndroidTestFailureRelativePath = "allureAndroid"
+def testScreenshotAbsolutePath = "/sdcard/Pictures/screenshots/$allureAndroidTestFailureRelativePath"
+
+def reportsDirectory = "$buildDir/reports/androidTests/connected/flavors/${getCurrentFlavor()}"
+def downloadsDirectory = testScreenshotAbsolutePath
+
+def attachScreenshotsTask = task('attachScreenshots', group: 'reporting') {
+    doFirst {
+        def failureScreenshotsDirectory = new File(reportsDirectory, 'failures')
+
+        if (!failureScreenshotsDirectory.exists()) {
+            println 'Could not find screenshot failures. Skipping...'
+            return
+        }
+
+        failureScreenshotsDirectory.eachDir { failedTestClassDirectory ->
+            def failedTestClassName = failedTestClassDirectory.name
+            def filenameList = []
+
+            //pick unique filenames without extension for each folder and add them to the list
+            failedTestClassDirectory.eachFileRecurse { failedTestFile ->
+                def failedTestName = failedTestFile.name
+                def failedTestNameWithoutExtension = failedTestName.take(failedTestName.lastIndexOf('.'))
+                if (!filenameList.contains(failedTestNameWithoutExtension)) {
+                    filenameList.add(failedTestNameWithoutExtension)
+                }
+            }
+
+            //create html file for each class
+            def failedTestClassJunitReportFile = new File(reportsDirectory, "${failedTestClassName}.html")
+
+            if (!failedTestClassJunitReportFile.exists()) {
+                println "Could not find JUnit report file for test class '${failedTestClassJunitReportFile}'"
+                return
+            }
+
+            def failedTestJunitReportContent = failedTestClassJunitReportFile.text
+
+            //for each unique filename without extension, add html tags to embed screenshot and video recording in junit report
+            filenameList.each {
+                def patternToFind = "<h3 class=\"failures\">${it}</h3>"
+                def patternToReplace = "${patternToFind} <img src=\"failures/${failedTestClassName}/${it}.png\" width =\"360\" />" +
+                        "<video width=\"360\" heigth=\"640\" controls>\n" +
+                        "<source src=\"failures/${failedTestClassName}/${it}.mp4\" type=\"video/mp4\">\n" +
+                        "</video>"
+                failedTestJunitReportContent = failedTestJunitReportContent.replaceAll(patternToFind, patternToReplace)
+            }
+
+            //finally, write the whole html structure to report file for each class
+            failedTestClassJunitReportFile.write(failedTestJunitReportContent)
+        }
+    }
+}
+
+def clearScreenshotsTask = task('clearScreenshots', type: Exec) {
+    executable "${android.getAdbExe().toString()}"
+    args 'shell', 'rm', '-r', downloadsDirectory
+    finalizedBy {
+        attachScreenshotsTask
+    }
+}
+
+def createScreenshotDirectoryTask = task('createScreenshotDirectory', type: Exec, group: 'reporting') {
+    executable "${android.getAdbExe().toString()}"
+    args 'shell', 'mkdir', '-p', downloadsDirectory
+}
+
+def fetchScreenshotsTask = task('fetchScreenshots', type: Exec, group: 'reporting') {
+    executable "${android.getAdbExe().toString()}"
+    args 'pull', "$downloadsDirectory/.", reportsDirectory
+    finalizedBy {
+        clearScreenshotsTask
+    }
+    dependsOn {
+        createScreenshotDirectoryTask
+    }
+    doFirst {
+        new File(reportsDirectory).mkdirs()
+    }
+}
+
+tasks.whenTaskAdded { task ->
+    if (task.name.contains('AndroidTest')) {
+        task.finalizedBy {
+            fetchScreenshotsTask
+        }
+    }
+}
+
+/**
+ * Method that extracts `productFlavor` from a gradle task.
+ *
+ * Example:- connectedServerDevelopDebugAndroidTest => serverDevelop.
+ *
+ * @return Product flavor associated with `AndroidTest` gradle task(s), none if not found.
+ */
+private def getCurrentFlavor() {
+    Gradle gradle = getGradle()
+    String taskName = gradle.getStartParameter().getTaskRequests().toString()
+    Pattern pattern = Pattern.compile("connected(\\w+)(Release|Debug)AndroidTest")
+
+    Matcher matcher = pattern.matcher(taskName)
+    if (matcher.find()) {
+        return matcher.group(1)
+    }
+}
