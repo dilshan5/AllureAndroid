@@ -6,6 +6,8 @@ import org.junit.runner.RunWith
 import org.junit.runners.Suite
 
 @RunWith(Suite::class)
-@Suite.SuiteClasses(FirstFragmentScreen::class, SecondFragmentScreen::class)
-class RegressionSuite {
-}
+@Suite.SuiteClasses(
+    FirstFragmentScreen::class,
+    SecondFragmentScreen::class
+)
+class Regression

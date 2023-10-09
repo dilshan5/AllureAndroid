@@ -1,0 +1,6 @@
+{
+  "development": {
+    "allowUntrustedCertificates": true,
+    "debugEnable": true
+  }
+}

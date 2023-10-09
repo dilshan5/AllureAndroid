@@ -10,6 +10,8 @@ import androidx.test.filters.LargeTest
 import com.qa.android.allure_android.MainActivity
 import com.qa.android.allure_android.R
 import com.qa.android.allure_android.util.BaseScreen
+import com.qa.android.allure_android.util.ScreenRecordingRuleChain
+import com.qa.android.allure_android.util.ScreenShotRuleChain
 import io.qameta.allure.android.rules.LogcatRule
 import io.qameta.allure.android.rules.ScreenshotRule
 import io.qameta.allure.android.rules.WindowHierarchyRule
@@ -19,7 +21,9 @@ import io.qameta.allure.kotlin.Feature
 import io.qameta.allure.kotlin.Story
 import io.qameta.allure.kotlin.TmsLink
 import io.qameta.allure.kotlin.junit4.DisplayName
+import io.qameta.allure.kotlin.junit4.Tag
 import org.junit.*
+import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 
 /**
@@ -44,8 +48,12 @@ class SecondFragmentScreen : BaseScreen() {
 
     @get:Rule
     val logcatRule = ScreenshotRule(mode = ScreenshotRule.Mode.FAILURE)
+
     @get:Rule
-    val logcatRule2 = LogcatRule()
+    val screenRecordingRule: RuleChain = ScreenRecordingRuleChain()
+
+    @get:Rule
+    val screenShotRule: RuleChain = ScreenShotRuleChain()
 
     @Before
     fun setUp() {
@@ -61,6 +69,7 @@ class SecondFragmentScreen : BaseScreen() {
 
     @Test
     @TmsLink("test-1")
+    @Tag("Regression")
     @DisplayName("As a User, I should see the Second Screen")
     fun verifySecondScreen() {
         onView(withId(R.id.button_first))

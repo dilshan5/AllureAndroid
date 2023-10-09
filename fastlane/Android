@@ -1,0 +1,21 @@
+import("ADB")
+
+# Lanes that execute gradle tasks, including reading gradle properties
+
+@gradleProperties = nil
+
+private_lane :unit_test do
+    executeGradle("test")
+end
+
+def executeGradle(task)
+    puts "Task -> " + task
+    gradle(
+        task: task,
+        properties: @gradleProperties,
+        flags: "-S"
+    )
+end
+
+
+

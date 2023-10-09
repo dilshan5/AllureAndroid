@@ -15,17 +15,60 @@ android {
         versionCode 1
         versionName "1.0-RC01"
 
-        testInstrumentationRunner "io.qameta.allure.android.runners.AllureAndroidJUnitRunner"
+       // testInstrumentationRunner "io.qameta.allure.android.runners.AllureAndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // The following argument makes the Android Test Orchestrator run its
+        // "pm clear" command after each test invocation. This command ensures
+        // that the app's state is completely cleared between tests.
+        testInstrumentationRunnerArguments clearPackageData: 'true'
+
+        // The package name of the test suite
+        testApplicationId "com.qa.android.allure_android.suites"
+
+        // region Convenience to invoke instrumentation tests using an agnostic parameter like -PtestSuite = Smoke
+        def matrixTestSuite = project.findProperty("testSuite")
+        if(matrixTestSuite != null) {
+            matrixTestSuite = matrixTestSuite.toString().toLowerCase()
+        } else {
+            matrixTestSuite = ""
+        }
+
+        switch (matrixTestSuite) {
+            case "smoke":
+            case "regression":
+                testInstrumentationRunnerArguments["class"] = testApplicationId + "." + matrixTestSuite.capitalize()
+                break
+        }
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix '.debug'
+        }
         release {
-            minifyEnabled false
-            // remove unused resources in addition to unused code
-            shrinkResources false
+            signingConfig signingConfigs.debug
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions "version"
+    productFlavors {
+        iodev {
+            applicationIdSuffix ".iodev"
+            versionNameSuffix "-iodev"
+        }
+        iotest {
+            applicationIdSuffix ".iotest"
+            versionNameSuffix "-iotest"
+        }
+        iostable {
+            applicationIdSuffix ".iostable"
+            versionNameSuffix "-iostable"
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
@@ -38,8 +81,13 @@ android {
         viewBinding true
     }
     namespace 'com.qa.android.allure_android'
+
+    testOptions {
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+    }
 }
 
+apply from: '../gradleScripts/ui-test-screen-report.gradle'
 
 dependencies {
     implementation deps.appCompat

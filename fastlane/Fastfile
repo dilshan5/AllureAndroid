@@ -1,0 +1,87 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+import("UITest")
+import("Android")
+import("Sonar")
+
+platform :android do
+
+desc "Execute unit tests"
+lane :unit_tests do
+    unit_test
+end
+
+desc "Execute instrumentation test on Emulator"
+lane :ui_tests do |options|
+    matrix_api = options[:matrix_api]
+    matrix_emulator = options[:matrix_emulator]
+    matrix_test_suite = options[:matrix_test_suite]
+    matrix_flavor = options[:flavor]
+
+    ui_test(matrix_flavor: matrix_flavor, matrix_api: matrix_api, matrix_emulator: matrix_emulator, matrix_test_suite: matrix_test_suite)
+end
+
+  # Trigger when a PR create for Develop branch.
+  #
+  # Options:
+  # flavor - environment flavor eg. iodev, iotest or iostable. Defaults to iodev.
+  # matrix_api - API version. Defaults to 32.
+  # matrix_emulator - Emulator device type (eg: Pixel, Nexus). Defaults to pixel_xl.
+  # matrix_test_suite - Smoke (for CI) and Regression (for CD) Test suites. Defaults to Smoke.
+  desc "Submit a PR to develop branch"
+  lane :pr_to_develop do |options|
+    matrix_flavor = options[:flavor] || "iodev"
+    matrix_api = options[:matrix_api]
+    matrix_emulator = options[:matrix_emulator]
+    matrix_test_suite = options[:matrix_test_suite]
+
+    gradle(task: "clean")
+    #sonar_report
+    unit_tests
+    gradle(
+       task: 'assemble',
+       flavor: matrix_flavor,
+       build_type: 'Debug',
+       print_command: false
+    )
+    ui_test(matrix_flavor: matrix_flavor, matrix_api: matrix_api, matrix_emulator: matrix_emulator, matrix_test_suite: matrix_test_suite)
+
+  end
+
+  desc "Compile debug and test sources"
+  lane :compile do
+    gradle(task: "compileDebugSources")
+    gradle(task: "compileDebugUnitTestSources")
+    gradle(task: "compileDebugAndroidTestSources")
+  end
+
+  desc "Submit a new Beta Build to Crashlytics Beta"
+  lane :beta do
+    gradle(task: "clean assembleRelease")
+    crashlytics
+  
+    # sh "your_script.sh"
+    # You can also use other beta testing services here
+  end
+
+  desc "Deploy a new version to the Google Play"
+  lane :deploy do
+    gradle(task: "clean assembleRelease")
+    upload_to_play_store
+  end
+end

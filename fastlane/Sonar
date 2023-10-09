@@ -1,0 +1,17 @@
+# --- Sonar
+# Lane for running a Sonar scan
+# For more details : http://docs.fastlane.tools/actions/sonar/#sonar
+
+desc 'run a sonar scan'
+lane :sonar_report do |options|
+  defaults = {
+    project_key: "name.gretzki.awesomeApp",
+    project_version: "1.0",
+    project_name: "iOS - AwesomeApp",
+    sonar_organization: "myOrg",
+    sonar_login: "123456abcdef",
+    sonar_url: "https://sonarcloud.io"
+  }.freeze
+
+  sonar(defaults.merge(options))
+end
