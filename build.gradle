@@ -11,6 +11,19 @@ buildscript {
     ]
     //endregion
 
+    //region Missing dimensions strategies
+    ext.strategy = [
+            environmentDataset: executionEnvironment,
+    ]
+    //endregion
+
+    //region Test automation extras
+    ext.automation = [
+            executionEnvironment    : useCamera.toBoolean() ?  "null" : "\"${executionEnvironment}\""
+
+    ]
+    //endregion
+
     //region Dependency declarations
     ext.versions = [
             androidGradlePlugin: '4.2.1',

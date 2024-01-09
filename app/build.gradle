@@ -15,6 +15,10 @@ android {
         versionCode 1
         versionName "1.0-RC01"
 
+        missingDimensionStrategy "dataset", strategy.environmentDataset
+
+        buildConfigField 'String', "EXECUTION_ENVIRONMENT", automation.executionEnvironment
+
        // testInstrumentationRunner "io.qameta.allure.android.runners.AllureAndroidJUnitRunner"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -45,6 +49,9 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix '.debug'
+            testCoverageEnabled true
+            // to verify the localization https://developer.android.com/guide/topics/resources/pseudolocales
+            pseudoLocalesEnabled true
         }
         release {
             signingConfig signingConfigs.debug
@@ -53,7 +60,7 @@ android {
         }
     }
 
-    flavorDimensions "version"
+    flavorDimensions = ["version"]
     productFlavors {
         iodev {
             applicationIdSuffix ".iodev"
@@ -96,22 +103,22 @@ dependencies {
     implementation deps.constraintLayout
     implementation deps.jetpackNavigation
     implementation deps.jetpackNavigationUi
-    testImplementation deps.junit
-    androidTestImplementation deps.junitAndroidX
-
-    implementation deps.androidTestRunner
-    implementation deps.androidTestRules
-    androidTestImplementation deps.espressoCore
-    androidTestImplementation deps.espressoIntents
-    implementation deps.kotlinStdLib
-    implementation deps.kotlinReflect
-    testImplementation deps.robolectric
-
     implementation deps.allureModel
     implementation deps.allureCommon
     implementation deps.allureJUnit
     implementation deps.allureAndroid
-    androidTestUtil deps.orchestrator
     implementation("org.redundent:kotlin-xml-builder:1.7.4")
+
+    androidTestImplementation project(":dataset-testing")
+    androidTestImplementation deps.androidTestRunner
+    androidTestImplementation deps.androidTestRules
+    androidTestImplementation deps.espressoCore
+    androidTestImplementation deps.espressoIntents
+    androidTestImplementation deps.kotlinStdLib
+    androidTestImplementation deps.kotlinReflect
+    androidTestImplementation deps.junitAndroidX
+
+    testImplementation deps.junit
+    androidTestUtil deps.orchestrator
 
 }
