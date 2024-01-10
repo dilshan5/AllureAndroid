@@ -16,6 +16,7 @@ android {
         versionName "1.0-RC01"
 
         missingDimensionStrategy "dataset", strategy.environmentDataset
+        testInstrumentationRunnerArguments clearPackageData: 'true'
 
         buildConfigField 'String', "EXECUTION_ENVIRONMENT", automation.executionEnvironment
 
@@ -63,16 +64,16 @@ android {
     flavorDimensions = ["version"]
     productFlavors {
         iodev {
+            resValue "string", "app_name", "IODev AllureAndroid"
             applicationIdSuffix ".iodev"
-            versionNameSuffix "-iodev"
         }
         iotest {
+            resValue "string", "app_name", "IOTest AllureAndroid"
             applicationIdSuffix ".iotest"
-            versionNameSuffix "-iotest"
         }
         iostable {
+            resValue "string", "app_name", "IOStable AllureAndroid"
             applicationIdSuffix ".iostable"
-            versionNameSuffix "-iostable"
         }
     }
 
@@ -97,6 +98,8 @@ android {
 apply from: '../gradleScripts/ui-test-screen-report.gradle'
 
 dependencies {
+    coreLibraryDesugaring deps.desugarJdkLibs
+
     implementation deps.appCompat
     implementation deps.coreKtx
     implementation deps.materialComponents

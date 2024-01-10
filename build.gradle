@@ -46,6 +46,7 @@ buildscript {
             androidTestCore: "androidx.test:rules:$versions.androidTestCore",
             appCompat: "androidx.appcompat:appcompat:$versions.androidAppCompat",
             coreKtx: 'androidx.core:core-ktx:1.7.0',
+            desugarJdkLibs: 'com.android.tools:desugar_jdk_libs:1.1.5',
             materialComponents: 'com.google.android.material:material:1.6.0',
             constraintLayout: 'androidx.constraintlayout:constraintlayout:2.0.4',
             jetpackNavigation: "androidx.navigation:navigation-fragment-ktx:$versions.navigation",
