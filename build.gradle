@@ -29,7 +29,7 @@ buildscript {
             androidGradlePlugin: '4.2.1',
             androidTest: '1.4.0',
             espresso: '3.4.0',
-            kotlin: '1.6.21',
+            kotlin: '1.5.0',
             androidTestCore: '1.4.0',
             androidAppCompat: '1.4.1',
             navigation: '2.3.5',

@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk config.compileSdk
 
     defaultConfig {
         applicationId "com.qa.android.allure_android"
@@ -81,7 +81,7 @@ android {
         targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = '11'
+        jvmTarget = JavaVersion.VERSION_11
     }
 
     buildFeatures {
