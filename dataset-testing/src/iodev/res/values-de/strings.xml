@@ -4,5 +4,6 @@
     <string name="td_username">iodev username DE</string>
 
     <!--    Payment Journey Test Data    -->
-    <string name="td_payment">iodev payment DE</string>
+    <string name="td_swiftContactName">iodev UserName DE</string>
+    <string name="td_swiftContactAccountNumber">iodev Account# DE</string>
 </resources>

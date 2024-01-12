@@ -11,7 +11,6 @@ import java.io.FileWriter
 
 open class BaseScreen {
 
-    val testContext = InstrumentationRegistry.getInstrumentation().context
     /**
      * For BUILD information : https://developer.android.com/reference/android/os/Build.html
      */
