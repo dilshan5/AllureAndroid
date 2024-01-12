@@ -76,7 +76,7 @@ class FirstFragmentScreen : BaseScreen(){
     @Tag("Regression")
     fun verifyMainScreen() {
         //an example code to get swiftContactDetails based on the execution environment
-        ContactDataProvider.swiftContactDetails?.accountName
+        ContactDataProvider.swiftContactDetails?.accountNumber
 
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext

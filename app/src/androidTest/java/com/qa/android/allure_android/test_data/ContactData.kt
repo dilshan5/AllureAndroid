@@ -7,9 +7,9 @@ import com.qa.android.allure_android.dataset.testing.R as DatasetR
 
 val testContext: Context? = InstrumentationRegistry.getInstrumentation().context
 data class ContactData(
-    val name: String = "User "+ LocalDateTime.now(),
-    val accountName: String = "Savings "+ LocalDateTime.now(),
-    val accountNumber: String = "CH35 3412 4149 2649 1635 5"
+    val name: String = "",
+    val accountName: String = "",
+    val accountNumber: String = ""
 )
 object ContactDataProvider {
 
@@ -17,8 +17,8 @@ object ContactDataProvider {
         testContext?.let {
             ContactData(
                 name = it.getString(DatasetR.string.td_swiftContactName),
-                accountName = it.getString(DatasetR.string.td_swiftContactAccountNumber),
-                accountNumber = "CH6789144641217388936"
+                accountName = "Bruise",
+                accountNumber = it.getString(DatasetR.string.td_swiftContactAccountNumber)
             )
         }
 }
