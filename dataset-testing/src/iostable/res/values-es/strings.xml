@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!--    Test User Credentails    -->
+    <string name="td_username">iostable username ES</string>
+
+    <!--    Payment Journey Test Data    -->
+    <string name="td_swiftContactName">iostable UserName ES</string>
+    <string name="td_swiftContactAccountNumber">iostable Account# ES</string>
+</resources>

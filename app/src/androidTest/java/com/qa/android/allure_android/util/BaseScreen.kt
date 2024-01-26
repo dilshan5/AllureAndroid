@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Build
 import android.os.Environment
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
+import androidx.test.platform.app.InstrumentationRegistry
 import org.redundent.kotlin.xml.xml
 import java.io.File
 import java.io.FileWriter

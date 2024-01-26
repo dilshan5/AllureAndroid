@@ -10,6 +10,7 @@ import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
 import com.qa.android.allure_android.MainActivity
 import com.qa.android.allure_android.R
+import com.qa.android.allure_android.test_data.ContactDataProvider
 import com.qa.android.allure_android.util.BaseScreen
 import com.qa.android.allure_android.util.ScreenRecordingRuleChain
 import com.qa.android.allure_android.util.ScreenShotRuleChain
@@ -74,6 +75,9 @@ class FirstFragmentScreen : BaseScreen(){
     @DisplayName("As a User, I should see the Home Screen")
     @Tag("Regression")
     fun verifyMainScreen() {
+        //an example code to get swiftContactDetails based on the execution environment
+        ContactDataProvider.swiftContactDetails?.accountNumber
+
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("com.qa.android.allure_android", appContext.packageName)

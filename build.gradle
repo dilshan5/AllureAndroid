@@ -11,12 +11,25 @@ buildscript {
     ]
     //endregion
 
+    //region Missing dimensions strategies
+    ext.strategy = [
+            environmentDataset: executionEnvironment,
+    ]
+    //endregion
+
+    //region Test automation extras
+    ext.automation = [
+            executionEnvironment    : useCamera.toBoolean() ?  "null" : "\"${executionEnvironment}\""
+
+    ]
+    //endregion
+
     //region Dependency declarations
     ext.versions = [
             androidGradlePlugin: '4.2.1',
             androidTest: '1.4.0',
             espresso: '3.4.0',
-            kotlin: '1.6.21',
+            kotlin: '1.5.0',
             androidTestCore: '1.4.0',
             androidAppCompat: '1.4.1',
             navigation: '2.3.5',
@@ -33,6 +46,7 @@ buildscript {
             androidTestCore: "androidx.test:rules:$versions.androidTestCore",
             appCompat: "androidx.appcompat:appcompat:$versions.androidAppCompat",
             coreKtx: 'androidx.core:core-ktx:1.7.0',
+            desugarJdkLibs: 'com.android.tools:desugar_jdk_libs:1.1.5',
             materialComponents: 'com.google.android.material:material:1.6.0',
             constraintLayout: 'androidx.constraintlayout:constraintlayout:2.0.4',
             jetpackNavigation: "androidx.navigation:navigation-fragment-ktx:$versions.navigation",
