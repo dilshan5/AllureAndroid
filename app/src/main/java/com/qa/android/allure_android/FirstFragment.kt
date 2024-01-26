@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.qa.android.allure_android.databinding.FragmentFirstBinding
 
@@ -35,6 +36,16 @@ class FirstFragment : Fragment() {
         binding.buttonFirst.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
+        binding.btnJoke.setOnClickListener {
+            // Call the getjokes() method of the ApiCall class,
+            // passing a callback function as a parameter.
+            ApiCall().getjokes(this) { jokes ->
+                // Set the text of the text view to the
+                // joke value returned by the API response.
+                binding.tvJoke.text = jokes.value
+            }
+        }
+        binding.buttonFirst.setBackgroundColor(resources.getColor(R.color.black))
     }
 
     override fun onDestroyView() {

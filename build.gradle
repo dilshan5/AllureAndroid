@@ -66,6 +66,8 @@ buildscript {
             allureAndroid: "io.qameta.allure:allure-kotlin-android:$versions.allureCommon",
             robolectric: "org.robolectric:robolectric:$versions.robolectricVersion",
             orchestrator: "androidx.test:orchestrator:$versions.orchestratorVersion",
+            retrofit2: "com.squareup.retrofit2:retrofit:2.9.0",
+            retrofit2Converter: "com.squareup.retrofit2:converter-gson:2.9.0",
 
     ]
     //endregion

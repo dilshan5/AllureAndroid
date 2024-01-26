@@ -111,6 +111,8 @@ dependencies {
     implementation deps.allureJUnit
     implementation deps.allureAndroid
     implementation("org.redundent:kotlin-xml-builder:1.7.4")
+    implementation deps.retrofit2
+    implementation deps.retrofit2Converter
 
     androidTestImplementation project(":dataset-testing")
     androidTestImplementation deps.androidTestRunner
