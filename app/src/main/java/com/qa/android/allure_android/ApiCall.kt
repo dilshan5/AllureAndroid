@@ -1,6 +1,6 @@
 package com.qa.android.allure_android
 
-import android.widget.Toast
+import android.util.Log
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -32,6 +32,7 @@ class ApiCall {
                 if(response!!.isSuccessful){
                     // If the response is successful, parse the
                     // response body to a DataModel object.
+                    Log.w("myNetworkInterceptor", response.code().toString())
                     val jokes: DataModel = response.body() as DataModel
 
                     // Call the callback function with the DataModel
@@ -42,6 +43,7 @@ class ApiCall {
 
             override fun onFailure(call: Call<DataModel>, t: Throwable) {
                 // This method is called when the API request fails.
+                t.message?.let { Log.w("myNetworkInterceptor", it) };
             }
         })
     }
